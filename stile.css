@@ -1,4 +1,7 @@
-/* Reset y variables de estilo */
+/* =========================================
+   RESET Y VARIABLES
+   ========================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -17,19 +20,28 @@
     --whatsapp-color: #25d366;
 }
 
+html {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 82px;
+}
+
 body {
     color: var(--text-color);
     background-color: var(--light-bg);
     line-height: 1.6;
 }
 
-/* Header & Navegación */
+
+/* =========================================
+   HEADER Y NAVEGACIÓN
+   ========================================= */
+
 .header {
     background-color: var(--dark-bg);
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .nav-container {
@@ -86,10 +98,19 @@ body {
     transform: translateY(-2px);
 }
 
-/* Hero Section */
+
+/* =========================================
+   HERO
+   ========================================= */
+
 .hero {
-    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
-    height: 85vh;
+    scroll-snap-align: start;
+    min-height: calc(100vh - 82px);
+    background:
+        linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)),
+        url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1500&q=80')
+        center / cover no-repeat;
+    height: calc(100vh - 82px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,11 +192,21 @@ body {
     color: var(--dark-bg);
 }
 
-/* Servicios */
+
+/* =========================================
+   SERVICIOS
+   ========================================= */
+
 .services {
+    scroll-snap-align: start;
+    min-height: calc(100vh - 82px);
     padding: 5rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .section-title {
@@ -198,27 +229,74 @@ body {
     gap: 2rem;
 }
 
+
+/* =========================================
+   CARDS
+   ========================================= */
+
+.card-flip-container {
+    perspective: 1200px;
+    height: 420px;
+    min-height: 420px;
+    transition: transform 0.3s, filter 0.3s;
+}
+
+.card-flip-container:hover {
+    transform: translateY(-5px);
+}
+
+.card-flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.card-flip-inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
 .card {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+}
+
+.card-front {
+    z-index: 2;
     background-color: var(--white);
     padding: 2.5rem 2rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 420px;
+    transform: rotateY(0deg);
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-}
-
-.card.featured {
+.card-front.featured {
     border: 2px solid var(--primary-color);
+}
+
+.card-back {
+    z-index: 1;
+    transform: rotateY(180deg);
+    background-color: var(--dark-bg);
+    color: var(--white);
+    border: 2px solid var(--primary-color);
+    text-align: left;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card .icon {
@@ -233,82 +311,61 @@ body {
     color: var(--dark-bg);
 }
 
-.card p {
-    color: #64748b;
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-}
-
-.card-btn {
-    color: var(--dark-bg);
-    font-weight: 700;
-    text-decoration: none;
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 3px;
-    align-self: center;
-    cursor: pointer;
-    transition: color 0.3s;
-    display: inline-block;
-}
-
-.card-btn:hover {
-    color: var(--primary-dark);
-}
-
-/* EFECTO GIRO 180 GRADOS EN CSS PURO */
-.card-flip-container {
-    perspective: 1000px;
-    min-height: 420px;
-}
-
-.flip-toggle {
-    display: none;
-}
-
-.card-flip-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
-    transform-style: preserve-3d;
-}
-
-.flip-toggle:checked + .card-flip-inner {
-    transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    top: 0;
-    left: 0;
-}
-
-.card-front {
-    z-index: 2;
-    transform: rotateY(0deg);
-}
-
-.card-back {
-    transform: rotateY(180deg);
-    background-color: var(--dark-bg);
-    color: var(--white);
-    border: 2px solid var(--primary-color);
-    text-align: left;
-    padding: 2rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
 .card-back h3 {
     color: var(--primary-color);
     font-size: 1.3rem;
     text-align: center;
     margin-bottom: 1rem;
 }
+
+.card p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+
+/* =========================================
+   BOTÓN DE FLIP
+   ========================================= */
+
+.card-btn {
+    color: var(--dark-bg);
+    font-weight: 700;
+    border: 0;
+    border-bottom: 2px solid var(--primary-color);
+    background: transparent;
+    padding: 0 0 3px;
+    align-self: center;
+    cursor: pointer;
+    transition: color 0.3s;
+    display: inline-block;
+    font-size: 1rem;
+}
+
+.card-btn:hover {
+    color: var(--primary-dark);
+}
+
+.back-btn {
+    color: #94a3b8;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.3rem;
+    transition: color 0.3s;
+    background: transparent;
+    border: 0;
+}
+
+.back-btn:hover {
+    color: var(--white);
+}
+
+
+/* =========================================
+   DETALLES DEL REVERSO
+   ========================================= */
 
 .plan-details {
     list-style: none;
@@ -362,24 +419,20 @@ body {
     gap: 6px;
 }
 
-.back-btn {
-    color: #94a3b8;
-    text-align: center;
-    cursor: pointer;
-    font-size: 0.85rem;
-    padding: 0.3rem;
-    transition: color 0.3s;
-}
 
-.back-btn:hover {
-    color: var(--white);
-}
+/* =========================================
+   NOSOTROS
+   ========================================= */
 
-/* Sección Nosotros */
 .about {
+    scroll-snap-align: start;
+    min-height: calc(100vh - 82px);
     background-color: var(--dark-bg);
     color: var(--white);
     padding: 5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .about-content {
@@ -413,22 +466,30 @@ body {
     font-size: 1.3rem;
 }
 
-/* Footer */
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
 .footer {
+    scroll-snap-align: start;
+    min-height: calc(100vh - 82px);
     background-color: #090d16;
     color: var(--white);
-    padding: 4rem 2rem 1.5rem 2rem;
+    padding: 4rem 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .footer-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto 3rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
-    margin-bottom: 3rem;
 }
 
 .footer-quote {
@@ -476,7 +537,11 @@ body {
     font-size: 0.85rem;
 }
 
-/* Botón Flotante WhatsApp */
+
+/* =========================================
+   WHATSAPP FLOTANTE
+   ========================================= */
+
 .whatsapp-float {
     position: fixed;
     bottom: 25px;
@@ -490,7 +555,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     z-index: 1000;
     text-decoration: none;
     transition: transform 0.3s;
@@ -500,16 +565,41 @@ body {
     transform: scale(1.1);
 }
 
-/* Responsivo */
+
+/* =========================================
+   RESPONSIVO
+   ========================================= */
+
 @media (max-width: 768px) {
+    html {
+        scroll-snap-type: none;
+    }
+
+    .hero,
+    .services,
+    .about,
+    .footer {
+        min-height: auto;
+    }
+
+    .hero {
+        height: calc(100svh - 72px);
+    }
     .navbar {
         display: none;
     }
+
     .hero h1 {
         font-size: 2.2rem;
     }
+
     .footer-container {
         flex-direction: column;
         text-align: center;
+    }
+
+    .card-flip-container {
+        height: 440px;
+        min-height: 440px;
     }
 }
